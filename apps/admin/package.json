@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@aspida/axios": "^1.14.0",
+    "@fontsource-variable/noto-serif-jp": "^5.2.9",
+    "@fontsource/dm-mono": "^5.2.7",
     "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-router": "^1.167.0",

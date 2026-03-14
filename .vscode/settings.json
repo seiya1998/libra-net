@@ -19,10 +19,5 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "eslint.workingDirectories": [
-    "./apps/server",
-    "./apps/lambda",
-    "./apps/mobile",
-    "./apps/admin"
-  ]
+  "eslint.workingDirectories": ["./apps/server", "./apps/opac", "./apps/admin"]
 }
