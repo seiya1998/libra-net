@@ -1,0 +1,361 @@
+openapi: 3.0.3
+info:
+  title: LibraNet Admin API
+  version: 0.1.0
+  description: 大学図書館SaaS管理画面用API（仮）
+
+servers:
+  - url: /api
+
+paths:
+  /books:
+    get:
+      summary: 蔵書一覧取得
+      operationId: getBooks
+      tags: [books]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: 蔵書登録
+      operationId: createBook
+      tags: [books]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /books/{id}:
+    get:
+      summary: 蔵書詳細取得
+      operationId: getBook
+      tags: [books]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /users:
+    get:
+      summary: 利用者一覧取得
+      operationId: getUsers
+      tags: [users]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    get:
+      summary: 利用者詳細取得
+      operationId: getUser
+      tags: [users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /loans:
+    get:
+      summary: 貸出一覧取得
+      operationId: getLoans
+      tags: [loans]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+    post:
+      summary: 貸出登録
+      operationId: createLoan
+      tags: [loans]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+
+  /returns:
+    get:
+      summary: 返却一覧取得
+      operationId: getReturns
+      tags: [returns]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Return'
+    post:
+      summary: 返却登録
+      operationId: createReturn
+      tags: [returns]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReturnInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Return'
+
+  /notices:
+    get:
+      summary: お知らせ一覧取得
+      operationId: getNotices
+      tags: [notices]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notice'
+    post:
+      summary: お知らせ作成
+      operationId: createNotice
+      tags: [notices]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoticeInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notice'
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+        isbn:
+          type: string
+        title:
+          type: string
+        authorIds:
+          type: array
+          items:
+            type: string
+        publisher:
+          type: string
+        year:
+          type: integer
+        category:
+          type: string
+        location:
+          type: string
+        status:
+          type: string
+          enum: [貸出可, 貸出中, 除籍]
+        copies:
+          type: integer
+
+    BookInput:
+      type: object
+      required: [isbn, title, authorIds, publisher, year, category, location, copies]
+      properties:
+        isbn:
+          type: string
+        title:
+          type: string
+        authorIds:
+          type: array
+          items:
+            type: string
+        publisher:
+          type: string
+        year:
+          type: integer
+        category:
+          type: string
+        location:
+          type: string
+        copies:
+          type: integer
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        studentId:
+          type: string
+        name:
+          type: string
+        department:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [学生, 教員]
+        activeLoans:
+          type: integer
+        registered:
+          type: string
+          format: date
+
+    Loan:
+      type: object
+      properties:
+        id:
+          type: string
+        bookId:
+          type: string
+        userId:
+          type: string
+        bookTitle:
+          type: string
+        userName:
+          type: string
+        loanDate:
+          type: string
+          format: date
+        dueDate:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [貸出中, 延滞]
+
+    LoanInput:
+      type: object
+      required: [bookId, userId]
+      properties:
+        bookId:
+          type: string
+        userId:
+          type: string
+
+    Return:
+      type: object
+      properties:
+        id:
+          type: string
+        bookId:
+          type: string
+        userId:
+          type: string
+        bookTitle:
+          type: string
+        userName:
+          type: string
+        loanDate:
+          type: string
+          format: date
+        dueDate:
+          type: string
+          format: date
+        returnDate:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [返却済, 延滞返却]
+
+    ReturnInput:
+      type: object
+      required: [bookId, userId]
+      properties:
+        bookId:
+          type: string
+        userId:
+          type: string
+
+    Notice:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        category:
+          type: string
+          enum: [お知らせ, 重要, 新着]
+        publishDate:
+          type: string
+          format: date
+        isPublished:
+          type: boolean
+
+    NoticeInput:
+      type: object
+      required: [title, content, category]
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        category:
+          type: string
+          enum: [お知らせ, 重要, 新着]
