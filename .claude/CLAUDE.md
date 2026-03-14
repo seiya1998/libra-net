@@ -64,6 +64,10 @@ pnpm --filter @libra-net/admin check-changed
 
 `check-changed` コマンドは、変更されたファイルに対して ESLint と TypeScript のチェックを実行します。すべてのエラーと警告を修正してから作業を続けてください。
 
+## Workflow
+
+- 実装タスクに取り掛かる前は、必ずPlanモードに入って計画を立て、ユーザーの承認を得てから実装すること。
+
 ## Important Notes
 
 - Monorepo using pnpm workspaces
