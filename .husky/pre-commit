@@ -1,0 +1,1 @@
+pnpm --filter @libra-net/admin lint-staged
