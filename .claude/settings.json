@@ -1,0 +1,111 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(source .env)",
+      "Bash(source:*)",
+      "Bash(echo:*)",
+      "Bash(pnpm add:*)",
+      "Bash(node:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "Bash(grep:*)",
+      "Bash(pnpm test:*)",
+      "Bash(pnpm run:*)",
+      "Bash(pnpm tsc:*)",
+      "Bash(pnpm api:build)",
+      "Bash(sed:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_handle_dialog",
+      "mcp__playwright__browser_hover",
+      "mcp__playwright__browser_navigate_back",
+      "mcp__playwright__browser_navigate_forward",
+      "mcp__playwright__browser_file_upload",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_install",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_pdf_save",
+      "mcp__playwright__browser_drag",
+      "mcp__playwright__browser_select_option",
+      "mcp__playwright__browser_tab_list",
+      "mcp__playwright__browser_tab_new",
+      "mcp__playwright__browser_tab_select",
+      "mcp__playwright__browser_tab_close",
+      "mcp__playwright__browser_generate_playwright_test",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~/*)",
+      "Bash(git add:*)",
+      "Bash(brew:*)"
+    ],
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(gh pr:create)",
+      "Bash(gh pr:merge)",
+      "Bash(gh pr:close)",
+      "Bash(gh issue:create)",
+      "Bash(gh issue:close)",
+      "Bash(git reset:*)",
+      "Bash(git rebase:*)",
+      "Bash(git merge:*)",
+      "Bash(git branch -D:*)",
+      "Bash(git stash drop:*)",
+      "Bash(git clean:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(rm:*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/scripts/deny_check.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}
