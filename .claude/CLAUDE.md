@@ -19,6 +19,8 @@ apps/
 
 各アプリには固有の CLAUDE.md があります:
 - [Admin Dashboard](./apps/admin/CLAUDE.md)
+- [Server API](./apps/server/CLAUDE.md)
+- [OPAC](./apps/opac/CLAUDE.md)
 
 ### 型安全な API 連携
 
@@ -67,6 +69,15 @@ pnpm --filter @libra-net/admin check-changed
 ## Workflow
 
 - 実装タスクに取り掛かる前は、必ずPlanモードに入って計画を立て、ユーザーの承認を得てから実装すること。
+
+## Git 規約
+
+- **コミットメッセージ**: Conventional Commits ＋ gitmoji ＋ 日本語。形式 `<type>: :<emoji>: <説明>`
+  - 例: `feat: :sparkles: 蔵書検索を追加` / `fix: :lady_beetle: 貸出延長のバグ修正`
+  - type: `feat` / `fix` / `refactor` / `docs` / `test` / `chore` など
+- **ブランチ名**: `<type>/<簡潔な内容>`（例 `feat/book-search`）
+- **PR**: 目的・主な変更点・動作確認方法を記載
+- main へ直接コミットしない（ブランチ → PR）
 
 ## Important Notes
 
