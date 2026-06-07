@@ -17,9 +17,11 @@ paths:
 
 ```typescript
 export type Failure = { errorCode: number };                 // HTTP に写像できるコード
-export type Result<Ok, Fail = Failure> =
+export type Result<Ok, Ng extends Failure> =
   | { success: true; data: Ok }
-  | { error: Fail };
+  | { success: false; error: Ng };
+// 各ユースケースは Ng を具体的な errorCode の union にして exhaustive を効かせる
+// 例: Result<Book, { errorCode: 400 } | { errorCode: 409 } | { errorCode: 500 }>
 // start(value): パイプの起点（成功で開始）
 // bypass(fn):   前段成功なら fn 実行、失敗ならスキップして失敗を伝播
 ```
@@ -27,6 +29,12 @@ export type Result<Ok, Fail = Failure> =
 - **YOU MUST**: ユースケース/サービスは `Result` を返す（例外で制御フローしない）。
 - **YOU MUST**: handler は `pipe(start(...), bypass(useCase), match(...).exhaustive())` で `Result` を HTTP に写像（`handler.md`）。
 - ドメインエラー → `Failure(errorCode)` の翻訳は **application** で行う。`errorCode` 定数は `shared/` に定義。
+
+## バリデーション（validateParams）
+
+- リクエスト検証は **`validateParams(data, rules)`**（rule ベース）を使い、**`Result<T, { errorCode: 400 }>`** を返す。`extractParamsForXxx`（presentation）の中で使う。
+- util は `shared/validate/` に置く。ルールは配列で宣言（例 `{ userId: ['required', 'cuid'], isbn: ['required', 'digits:13'] }`）。
+- 検証の役割分担は `schema.md` 参照（request の実検証は validateParams、`schema.ts` は型/OpenAPI 中心）。
 
 ## tenant（チョークポイント）
 

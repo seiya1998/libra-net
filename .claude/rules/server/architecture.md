@@ -15,13 +15,13 @@ paths:
 apps/server/src/
   domain/          # エンティティ / 値オブジェクト / ドメインサービス / リポジトリIF(ポート) / ドメインエラー。純粋TS
   application/     # ユースケース。domain とリポジトリIF にのみ依存し Result を返す（Drizzle を知らない）
-  infrastructure/  # リポジトリ実装(Drizzle で DB 操作) / 外部API・検索アダプタ。domain のIFを実装
+  infrastructure/  # リポジトリ実装(Drizzle で DB 操作) / 外部API・検索アダプタ
+    db/            #   Drizzle schema(schema.ts or schema/) / client.ts / migrations。persistence は infrastructure に集約
   presentation/    # presentation 層
-    routes/        #   ファイルベースルーティング(@fastify/autoload)。admin/→prefix /admin・opac/→prefix /(root)。_handlers.ts(ROP)・schema.ts・extractParams
+    routes/        #   ファイルベースルーティング(@fastify/autoload)。admin/→/admin・opac/→/(root)。多メソッドは _get/_post 等で分割(URL から除外)。各 _handlers.ts(ROP)・schema.ts・extractParams
     middleware/    #   テナント解決(サブドメイン→TenantContext)・認証(admin/opac別)
     plugins/       #   Fastify プラグイン(swagger 等)
   shared/          # Result/Failure・railway(pipe/start/bypass)・テナント文脈/チョークポイント・DI合成（規約 shared.md）
-  db/              # Drizzle スキーマ定義 / マイグレーション / クライアント
 ```
 
 - 各層の内部は境界づけられたコンテキスト（books / loans / users / notices …）で分割する。
@@ -45,7 +45,7 @@ apps/server/src/
 
 **方針: リッチドメイン（onion のベストプラクティス）。** OOP でいう「サービス層（ビジネスロジック）」は、オニオンでは責務ごとに分割する。ビジネスルールは domain に置き、application は薄いユースケース層にする。これで domain は ORM/Fastify 非依存で単体テストでき、onion の利点が活きる。
 
-- **ドメイン層 `domain/`（ビジネスルールの本体）**: エンティティ／値オブジェクトが自身の不変条件を守る。複数エンティティにまたがる規則は **ドメインサービス**（ファイル名 `~Policy` 等。**`~Service` は付けない**）に置く（例: 貸出上限チェック、延滞判定）。
+- **ドメイン層 `domain/`（ビジネスルールの本体）**: エンティティ／値オブジェクトが自身の不変条件・**自分で完結するルール**を持つ（例: `loan.isOverdue(now)` は `Loan` のメソッド）。**複数エンティティにまたがる / どのエンティティにも属さない**規則だけ **ドメインサービス**（`~Policy` 等・`~Service` は付けない）に置く（例: 貸出可否 `canBorrow`）。1エンティティで完結するなら無理に `~Policy` を作らない。
 - **アプリケーション層 `application/`（アプリケーションサービス＝薄い組み立て）**: ファイル名 `<Context>Service`（例 `BookService`）。リポジトリ IF で取得 → ドメインのルール適用 → 保存、というオーケストレーションとトランザクション境界のみ。**ここに業務ルールを書かない**。handler が `bypass` で呼ぶのはこれ。
 - **DB アクセス = `infrastructure/` のリポジトリ実装**: 「DB から取得・保存する処理」はサービスではなくここに置く。application はリポジトリ IF 越しに呼ぶ。
 
@@ -71,10 +71,11 @@ apps/server/src/
 - **NEVER**: 1 箇所でしか使わない関数を最初から `shared/` に置く（早すぎる共通化＝不要な結合）。実際に再利用が発生してから昇格する。
 
 ```
-presentation/routes/admin/books/{_handlers.ts, schema.ts, extractParamsForRegisterBook.ts}  # extractParams は此のエンドポイント専用
+presentation/routes/admin/books/_post/{_handlers.ts, schema.ts, extractParams.ts}  # POST /admin/books（多メソッドは _get/_post で分割・URL は /admin/books）
 application/books/BookService.ts        # アプリケーションサービス（registerBook 等。カリー化・薄い組み立て）
 domain/books/{Book.ts, BookRepository.ts, errors.ts}  # エンティティ・ポート(型 BookRepository)・errors
 infrastructure/books/bookRepository.ts  # factory bookRepository(db)（DB操作・クラス不使用・ORM名なし）
+infrastructure/db/schema/books.ts       # Drizzle schema（r_books / e_loans … は infrastructure/db/schema に）
 ```
 
 ## ROP（Web 層）と OpenAPI

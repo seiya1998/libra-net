@@ -5,27 +5,42 @@ paths:
 
 # OPAC プロジェクト構造ルール（Next.js App Router）
 
+**admin と同じ feature-based 構成**。それに Next.js 固有（App Router `app/[locale]`・`i18n`・RSC 境界）を加える。
+
 ## ディレクトリ構成
 
 ```
 apps/opac/src/
-├── app/
-│   └── [locale]/          # ロケール別ルーティング（next-intl）
+├── app/                    # ★Next.js App Router（[locale] ルーティング）— opac 固有
+│   └── [locale]/
 │       ├── layout.tsx
-│       ├── page.tsx       # 検索トップ（RSC）
-│       └── books/[id]/page.tsx  # 蔵書詳細（ISR）
-├── features/              # 機能単位（admin と同様の feature-based）
-├── components/            # 共通コンポーネント
-├── i18n/                  # next-intl 設定・メッセージ
-└── lib/                   # API クライアント等
+│       ├── page.tsx                  # 検索トップ（RSC）
+│       ├── loading.tsx / error.tsx / not-found.tsx
+│       └── books/[id]/page.tsx       # 蔵書詳細（ISR）
+├── features/               # 機能単位（admin と同構成）
+│   └── search/
+│       ├── components/     # 機能固有コンポーネント
+│       ├── hooks/          # 機能固有フック
+│       ├── lib/            # その feature でしか使わない関数
+│       └── types/          # 機能固有型定義
+├── components/             # 共通コンポーネント
+│   ├── bases/              # 基本UI（Button, TextInput 等）
+│   └── modules/            # 再利用モジュール（Pagination 等）
+├── hooks/                  # 共通フック
+├── utils/                  # 共通ユーティリティ（複数 feature 横断のみ）
+├── values/                 # 定数・静的データ
+├── i18n/                   # ★next-intl 設定・メッセージ — opac 固有
+└── lib/                    # API クライアント等
 ```
 
 ## 配置ルール
 
-- **YOU MUST**: App Router を使う。ルートは `app/[locale]/` 配下。
-- **YOU MUST**: feature-based 構成（admin に準拠）。**NEVER** feature 間の直接 import。
-- **YOU MUST**: パスエイリアス `@/` を使う（相対 `../../` 禁止）。
-- コンポーネントは関数コンポーネント＋named export、Tailwind。React 19 / TS の共通規約は `.claude/rules/react-quality.md`・`.claude/rules/typescript-quality.md`（`paths` で opac にも自動適用）に従う。
+- **YOU MUST**: feature-based。新機能は `features/<機能名>/` 配下（`components` / `hooks` / `types` / `lib`）。
+- **YOU MUST**: **その機能でしか使わない関数は `features/<機能名>/lib/`（または使う場所に co-locate）**。`src/utils/` は**複数 feature 横断の共通だけ**。
+- **NEVER**: feature 間の直接 import（共通化は `components/` / `hooks/` / `utils/` に昇格）。
+- **YOU MUST**: パスエイリアス `@/`（相対 `../../` 禁止）。
+- コンポーネントは関数コンポーネント＋named export、Tailwind。React 19 / TS の共通規約は `react-quality.md` / `typescript-quality.md`。
+- **App Router（opac 固有）**: ルートは `app/[locale]/`。`loading.tsx` / `error.tsx` / `not-found.tsx` を用意（`rendering-data.md`）。
 
 ## サーバー / クライアント境界
 

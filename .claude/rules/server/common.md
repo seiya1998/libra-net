@@ -19,9 +19,8 @@ paths:
 
 ### オブジェクトアクセス
 
-- **YOU MUST**: オブジェクトのプロパティアクセスはドット記法ではなくブラケット記法を使う。
-- 例: `book["title"]`, `loan["dueDate"]`
-- `noUncheckedIndexedAccess` 等と組み合わせ、型安全性を高める意図。
+- プロパティアクセスは**ドット記法**でよい（例: `book.title`, `loan.dueDate`）。
+- 動的キー / インデックスアクセスは `undefined` の可能性に注意（`typescript-quality.md`・`noUncheckedIndexedAccess`）。
 
 ## 禁止事項
 

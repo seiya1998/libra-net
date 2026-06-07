@@ -19,6 +19,7 @@ pnpm workspace。**`apps/*`**（アプリ: admin / server / opac）＋ **`packag
 ## API クライアント
 
 - 各フロント（admin / opac）は server の OpenAPI から **Aspida クライアントを各々生成**する（admin=`/admin/*` 面、opac=root 面。別 OpenAPI）。
+- **`pnpm dev` が `api:build`（openapi2aspida）を含む**ため、開発起動時に型が自動再生成される（例: admin `dev: pnpm api:build && vite`）。
 - **NEVER**: `apis/` 配下を手動編集（`pnpm api:build` で自動生成）。
 
 ## 共有候補（必要になったら `packages/` へ）
