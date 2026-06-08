@@ -17,6 +17,7 @@ src/
 │   └── books/           # 蔵書管理
 │       ├── components/  # 機能固有コンポーネント
 │       ├── hooks/       # 機能固有フック
+│       ├── lib/         # その feature でしか使わない関数
 │       └── types/       # 機能固有型定義
 ├── components/          # 共通コンポーネント
 │   ├── apps/            # 機能横断コンポーネント
@@ -34,8 +35,9 @@ src/
 
 ### features/
 - **YOU MUST**: 新機能は `features/<機能名>/` 配下に作成
-- 各 feature は `components/`, `hooks/`, `types/` を持つ
-- feature 間の直接 import は禁止（共通化が必要なら `components/` や `hooks/` に移動）
+- 各 feature は `components/`, `hooks/`, `types/`, `lib/`（その feature 固有の関数）を持つ
+- **YOU MUST**: **その機能でしか使わない関数は `features/<機能名>/lib/`（または使う場所に co-locate）**に置く。`src/utils/` は**複数 feature 横断の共通だけ**（feature 固有の関数を `src/utils/` に置かない）
+- feature 間の直接 import は禁止（共通化が必要なら `components/` / `hooks/` / `utils/` に昇格）
 
 ### components/
 - `apps/` - 複数 feature で使われるが汎用的でないコンポーネント
@@ -56,3 +58,10 @@ src/
 
 - **YOU MUST**: パスエイリアス `@/` を使用（相対パスの `../../` は禁止）
 - 例: `import { Button } from '@/components/bases/Button'`
+
+---
+
+## マルチテナント
+
+- テナントは**サブドメイン**で識別し、認証とあわせてテナントを確定する。テナント設定（テーマ等）を取得し CSS 変数として適用（`theming.md`）。
+- データ取得は **admin API（テナントscope）経由**。クライアントから `tenant_id` を送らない（サーバーが決定）。
