@@ -50,6 +50,6 @@ apps/opac/src/
 
 ## マルチテナント / テナント解決
 
-- **YOU MUST**: テナントは**サブドメイン**（`{univ}.libra.net`）で識別。Next.js middleware で解決し、テナント文脈を下流（RSC）へ渡す。
+- **YOU MUST**: テナントは**サブドメイン**（`{univ}.libriori.com`）で識別。Next.js middleware で解決し、テナント文脈を下流（RSC）へ渡す。
 - **YOU MUST**: テナント設定（テーマ等）はテナント解決後に**サーバー側で取得**し、`[locale]` レイアウトで CSS 変数として適用（`theming.md`）。
 - **YOU MUST**: データ取得は **opac API（テナントscope）経由**。クライアントから `tenant_id` を送らない（サーバーがサブドメイン/セッションから決定）。

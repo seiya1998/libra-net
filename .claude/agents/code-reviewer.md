@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: コード品質・セキュリティレビュー。コード変更後に自動的に使用。libra-net のローカルルール（.claude/rules/**）に照らして git diff をレビューする。
+description: コード品質・セキュリティレビュー。コード変更後に自動的に使用。Libriori のローカルルール（.claude/rules/**）に照らして git diff をレビューする。
 tools: Read, Grep, Glob, Bash
 model: sonnet
 color: cyan
@@ -14,7 +14,7 @@ color: cyan
 
 ## ローカルルールを読み込む
 
-**MUST** 変更ファイルのパスに応じて libra-net の**ローカルルール**を `Read` で読み込み、それに照らしてレビューする（外部リポジトリは参照しない）。
+**MUST** 変更ファイルのパスに応じて Libriori の**ローカルルール**を `Read` で読み込み、それに照らしてレビューする（外部リポジトリは参照しない）。
 
 | 変更パス | 読み込むルール |
 |---|---|
@@ -24,7 +24,7 @@ color: cyan
 
 ルールファイルが source of truth。**NEVER** ルールの内容をこのファイルへ重複コピーして判定しない（必ず最新のルールファイルを読む）。
 
-## 横断の重点チェック（libra-net 共通）
+## 横断の重点チェック（Libriori 共通）
 
 - **TypeScript**: `any` 禁止 / truthiness チェック禁止（`!== undefined`）/ 配列インデックスの undefined チェック
 - **admin**: `apis/` の手動編集禁止（自動生成）/ `fetch`・`axios` 直叩き禁止（Aspida + `useQuery`）/ `useEffect` でのデータ取得禁止 / フォームは RHF + Zod / feature 間の直接 import 禁止 / テーマは CSS 変数（固定色クラス直書き禁止）/ tenant_id をクライアントから送らない

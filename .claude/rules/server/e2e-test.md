@@ -35,4 +35,4 @@ test('異常系 - 404', async () => {
 
 - [ ] 正常系・異常系を含む
 - [ ] `jest.spyOn` でのテストデータ投入なし
-- [ ] `pnpm --filter @libra-net/server test:e2e` が全て通る
+- [ ] `pnpm --filter @libriori/server test:e2e` が全て通る

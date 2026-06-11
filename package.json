@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "libra-net",
+  "name": "libriori",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",

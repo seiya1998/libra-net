@@ -8,10 +8,10 @@
 
 ## マルチテナント SaaS 全体像
 
-- **テナント**: 契約大学ごとに**サブドメイン**（`{univ}.libra.net`）。分離は **共有DB（MySQL）＋ 行レベル `tenant_id`**。MySQL は RLS が無いため、リポジトリ層の `tenant_id` 強制＋型＋分離テストで担保（ADR-002）。
+- **テナント**: 契約大学ごとに**サブドメイン**（`{univ}.libriori.com`）。分離は **PostgreSQL の Pool（共有スキーマ＋行レベル `tenant_id`）＋ RLS**。リポジトリの `tenant_id` 強制＋型＋RLS＋分離テストの多層防御。強セキュリティ大学は Hybrid で Silo に切り出し（ADR-002）。
 - **2 アプリ 1 DB**: admin API（司書・PC）と opac API（利用者・モバイル）が同一 DB を参照。presentation は2面、共有 domain/application/infrastructure（ADR-008）。
 - **非同期入口**: HTTP と別に、ワーカー or Lambda/バッチ（**未決**, ADR-006）が同じユースケースを実行。
-- **外部連携・検索**: NDL / Google Calendar / AI / 検索（MySQL FULLTEXT）は infrastructure のアダプタ（ADR-003, ADR-005）。
+- **外部連携・検索**: NDL / NACSIS-CAT / Google Calendar / AI / 検索（PostgreSQL 全文検索）は infrastructure のアダプタ（ADR-003, ADR-005）。
 - **テーマ**: 大学ごとカラーは実行時 CSS 変数（ADR-004）。
 - **複数キャンパス**: 在庫・可用性は (蔵書, キャンパス) 単位、拠点間配送あり（EP-005）。
 

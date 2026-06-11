@@ -10,7 +10,7 @@ paths:
 ## ポートとアダプタ
 
 - **YOU MUST**: domain に**ポート（インターフェース）**を定義し、infrastructure に実装（アダプタ）を置く。
-  - 例: ポート `Bibliography`（実装 factory `ndlBibliography(env)`）、`Calendar`（`googleCalendar(...)`）、`Search`（MySQL FULLTEXT 実装）。ポートは clean な型名、実装は factory・連携先名（`naming.md`）。
+  - 例: ポート `Bibliography`（実装 factory `ndlBibliography(env)`）、`Calendar`（`googleCalendar(...)`）、`Search`（PostgreSQL 全文検索 実装）。ポートは clean な型名、実装は factory・連携先名（`naming.md`）。また書誌取得は将来 NACSIS-CAT / CiNii アダプタを差し替え可（ADR-003 / EP-013）。
 - **YOU MUST**: 外部モデルは**境界で domain モデルに変換**する（外部の生レスポンス型を内側へ漏らさない）。
 - **NEVER**: domain / application が外部 SDK・HTTP クライアント・検索エンジン SDK を直接 import しない（必ずポート経由）。
 
@@ -22,4 +22,4 @@ paths:
 
 ## 検索
 
-- 検索は `ISearch` で抽象化する。現状の実装は **MySQL FULLTEXT**（`performance.md`）。将来の外部検索エンジン移行はアダプタ差し替えで吸収する。
+- 検索は `ISearch` で抽象化する。現状の実装は **PostgreSQL 全文検索（tsvector / pg_trgm）**（`performance.md`）。将来の外部検索エンジン移行はアダプタ差し替えで吸収する。

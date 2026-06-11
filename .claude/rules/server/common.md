@@ -5,7 +5,7 @@ paths:
 
 # Server 共通ルール
 
-`@libra-net/server`（Fastify + Drizzle ORM）のコーディング規約。
+`@libriori/server`（Fastify + Drizzle ORM）のコーディング規約。
 
 ## 命名規則
 
@@ -13,7 +13,7 @@ paths:
 
 - **YOU MUST**: API のリクエストボディ・レスポンスボディのプロパティは必ず `camelCase` で命名する。
 - 例: `bookId`, `userName`, `dueDate`, `authorIds`
-- フロントエンド（`@libra-net/admin`）は OpenAPI → Aspida 経由でこの型をそのまま受け取るため、命名のブレは型不整合に直結する。
+- フロントエンド（`@libriori/admin`）は OpenAPI → Aspida 経由でこの型をそのまま受け取るため、命名のブレは型不整合に直結する。
 
 ## コーディング規約
 

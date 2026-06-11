@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-LibraNet は大学図書館SaaS のモノレポプロジェクトです。
+Libriori は大学図書館SaaS のモノレポプロジェクトです。
 
 ### Repository Structure
 
 ```
 apps/
-├── admin/       (@libra-net/admin) - React 19 管理画面 SPA
+├── admin/       (@libriori/admin) - React 19 管理画面 SPA
 ├── opac/        - Next.js 利用者向け検索（予定）
 └── server/      - Fastify バックエンド API（予定）
 ```
@@ -46,14 +46,14 @@ apps/
 
 ```bash
 # Install dependencies for specific workspace
-pnpm --filter @libra-net/<workspace> i <package>
+pnpm --filter @libriori/<workspace> i <package>
 
 # Run commands in specific workspace
-pnpm --filter @libra-net/<workspace> <command>
+pnpm --filter @libriori/<workspace> <command>
 
 # Examples:
-pnpm --filter @libra-net/admin dev
-pnpm --filter @libra-net/admin test
+pnpm --filter @libriori/admin dev
+pnpm --filter @libriori/admin test
 ```
 
 ## Code Quality Checks
@@ -61,7 +61,7 @@ pnpm --filter @libra-net/admin test
 **IMPORTANT**: コードを編集した後は、必ず以下のコマンドを実行してリントエラーと TypeScript エラーがないことを確認してください：
 
 ```bash
-pnpm --filter @libra-net/admin check-changed
+pnpm --filter @libriori/admin check-changed
 ```
 
 `check-changed` コマンドは、変更されたファイルに対して ESLint と TypeScript のチェックを実行します。すべてのエラーと警告を修正してから作業を続けてください。
@@ -82,5 +82,5 @@ pnpm --filter @libra-net/admin check-changed
 ## Important Notes
 
 - Monorepo using pnpm workspaces
-- All packages use @libra-net namespace
+- All packages use @libriori namespace
 - Refer to app-specific CLAUDE.md files for detailed guidance
