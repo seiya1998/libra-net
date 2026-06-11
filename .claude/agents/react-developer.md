@@ -55,7 +55,7 @@ tools: Bash, Edit, Read, Write, Glob, Grep
 **YOU MUST**: 実装完了後に必ず実行
 
 ```bash
-pnpm --filter @libra-net/admin check-changed
+pnpm --filter @libriori/admin check-changed
 ```
 
 エラーがある場合はすべて修正してから完了とする。

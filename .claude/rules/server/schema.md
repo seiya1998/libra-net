@@ -44,7 +44,7 @@ export type GetXxxResponse = GenerateResponseTypes<typeof xxxSchemas.get.respons
 
 ## 完了チェックリスト
 
-- [ ] `pnpm --filter @libra-net/server tsc --noEmit` で型エラーがない
+- [ ] `pnpm --filter @libriori/server tsc --noEmit` で型エラーがない
 - [ ] 指定されたリクエスト/レスポンス項目がスキーマに含まれている
 - [ ] スキーマから型が生成されている
 - [ ] プロパティが camelCase

@@ -5,7 +5,7 @@ paths:
 
 # サーバーアーキテクチャ規約（オニオン + ROP + リポジトリ）
 
-`@libra-net/server`（Fastify + Drizzle + MySQL）は **オニオンアーキテクチャ**を採用する。Web 層は **Railway Oriented Programming (ROP)**、データアクセスは **リポジトリパターン**で実装する。マルチテナント SaaS（共有DB＋行レベル `tenant_id`）であり、テナント分離の規約は `multi-tenancy.md` を参照。
+`@libriori/server`（Fastify + Drizzle + PostgreSQL）は **オニオンアーキテクチャ**を採用する。Web 層は **Railway Oriented Programming (ROP)**、データアクセスは **リポジトリパターン**で実装する。マルチテナント SaaS（**Pool: 共有スキーマ＋行レベル `tenant_id` ＋ RLS**）であり、テナント分離の規約は `multi-tenancy.md` を参照。
 
 本ファイルは層構造と依存方向の規約。ファイル種別ごとの詳細は `schema.md` / `handler.md` / `e2e-test.md`、命名は `common.md` を参照。
 
@@ -35,7 +35,7 @@ apps/server/src/
 
 - **domain**: エンティティ・値オブジェクト・ドメインエラー・**リポジトリインターフェース（ポート）**。検索・外部連携も domain にポートを置く。
 - **application**: アプリケーションサービス（`<Context>Service`、例 `BookService`）＝**カリー化されたユースケース関数**の集まり（薄い組み立て）。domain とリポジトリ IF にのみ依存し `Result` を返す（業務ルールは持たず domain に置く）。deps は合成ルートでカリー化注入、`TenantContext` は per-request。**HTTP からもワーカー/バッチからも同じサービスが呼ばれる**（入口に依存しない）。
-- **infrastructure**: リポジトリ実装（Drizzle/MySQL）・DB クライアント・**外部 API / 検索のアダプタ**（検索は MySQL FULLTEXT。`integrations.md`）・キャッシュ/キュー基盤（runtime 未決）。domain の IF を実装する側。**Drizzle による DB 操作（取得/登録/更新/削除）はこの層のリポジトリ実装にのみ書く**。
+- **infrastructure**: リポジトリ実装（Drizzle/PostgreSQL）・DB クライアント・**外部 API / 検索のアダプタ**（検索は PostgreSQL 全文検索。`integrations.md`）・キャッシュ/キュー基盤（runtime 未決）。domain の IF を実装する側。**Drizzle による DB 操作（取得/登録/更新/削除）はこの層のリポジトリ実装にのみ書く**。
 - **presentation**: 外側の API 層。`routes/`（**ファイルベースルーティング** `@fastify/autoload`。**surface ごとに register**: `routes/admin` を prefix `/admin`、`routes/opac` を prefix `/`(root) でマウント。例: `routes/admin/books`→`/admin/books`、`routes/opac/books`→`/books`。`_handlers.ts`(ROP)・`schema.ts`・`extractParams`）＋ `middleware/`（テナント解決・認証）＋ `plugins/`。**register を surface 別に分け、認可/ミドルウェアを surface 単位でカプセル化**（admin 認証は admin の register、opac 認証は opac の register）。application を呼ぶだけ（DB アクセスは書かない）。
 
 > **入口は2系統**: ①HTTP（admin API / opac API）②非同期（ワーカー or Lambda/バッチ＝**未決**、`async-jobs.md`）。どちらも application ユースケースを叩き、domain は不変。

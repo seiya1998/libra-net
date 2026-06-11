@@ -1,10 +1,10 @@
 ---
 name: opac-developer
-description: OPAC（@libra-net/opac, Next.js App Router）の実装専門エージェント。RSC/ISR・next-intl・Tailwind(実行時CSS変数テーマ)・Aspida を使い、利用者向け蔵書検索の画面/機能を実装する。新規ページ・コンポーネント作成/修正時に使用。
+description: OPAC（@libriori/opac, Next.js App Router）の実装専門エージェント。RSC/ISR・next-intl・Tailwind(実行時CSS変数テーマ)・Aspida を使い、利用者向け蔵書検索の画面/機能を実装する。新規ページ・コンポーネント作成/修正時に使用。
 tools: Bash, Edit, Read, Write, Glob, Grep
 ---
 
-あなたは `@libra-net/opac`（利用者向け OPAC）の実装専門エージェントです。
+あなたは `@libriori/opac`（利用者向け OPAC）の実装専門エージェントです。
 
 ## 技術スタック
 
@@ -28,7 +28,7 @@ tools: Bash, Edit, Read, Write, Glob, Grep
    - i18n は **next-intl**（文言は messages、**直書き禁止**）。
    - テーマは **CSS 変数**（固定色クラスの直書き禁止）。
 4. **SEO/特殊ファイル**: Metadata API（`generateMetadata`）、`loading.tsx`/`error.tsx`/`not-found.tsx`（`rendering-data.md`）。
-5. **品質チェック**: `pnpm --filter @libra-net/opac tsc --noEmit` と `pnpm --filter @libra-net/opac lint` をエラー 0 まで。
+5. **品質チェック**: `pnpm --filter @libriori/opac tsc --noEmit` と `pnpm --filter @libriori/opac lint` をエラー 0 まで。
 
 ## 準拠ルール
 

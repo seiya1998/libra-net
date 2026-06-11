@@ -1,6 +1,6 @@
 # CLAUDE.md - Server API
 
-大学図書館SaaS バックエンド API (@libra-net/server)
+大学図書館SaaS バックエンド API (@libriori/server)
 
 > 現状 `docs/openapi-for-admin.yaml`（OpenAPI スキーマ）のみ。実装は未着手で、本書と `.claude/rules/server/` は「これから建てる実装を導く規約」。
 
@@ -21,11 +21,11 @@
 ## コマンド（想定。server の package.json に定義する）
 
 ```bash
-pnpm --filter @libra-net/server dev          # 開発サーバー起動
-pnpm --filter @libra-net/server tsc --noEmit  # 型チェック
-pnpm --filter @libra-net/server lint          # ESLint
-pnpm --filter @libra-net/server test          # 単体テスト
-pnpm --filter @libra-net/server test:e2e      # E2E テスト
+pnpm --filter @libriori/server dev          # 開発サーバー起動
+pnpm --filter @libriori/server tsc --noEmit  # 型チェック
+pnpm --filter @libriori/server lint          # ESLint
+pnpm --filter @libriori/server test          # 単体テスト
+pnpm --filter @libriori/server test:e2e      # E2E テスト
 ```
 
 ## 開発ルール

@@ -13,7 +13,7 @@ tools: Bash, Edit, Read
 ## 実行手順
 
 1. 変更された `.ts`/`.tsx` のパスから**対象ワークスペースを判定**する（`apps/admin/**`→`admin`、`apps/server/**`→`server`、`apps/opac/**`→`opac`）。
-2. 対象ワークスペースごとに `pnpm --filter @libra-net/<workspace> tsc --noEmit` を実行する（複数 workspace にまたがる場合は各々実行）。判定できなければ変更のあった全 workspace で実行。
+2. 対象ワークスペースごとに `pnpm --filter @libriori/<workspace> tsc --noEmit` を実行する（複数 workspace にまたがる場合は各々実行）。判定できなければ変更のあった全 workspace で実行。
 3. 型エラーがある場合は、エラー内容を確認してメインエージェントに報告する
 4. 型エラーがない場合は、型チェックが正常に完了したことを報告する
 

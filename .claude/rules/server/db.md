@@ -5,7 +5,7 @@ paths:
 
 # DB / Drizzle スキーマ・マイグレーション規約
 
-DB は **MySQL + Drizzle**。スキーマ定義が source of truth。**イミュータブルデータモデリング**を採用する。
+DB は **PostgreSQL + Drizzle**。マルチテナントは **Pool（共有スキーマ＋`tenant_id`）＋ RLS**（`multi-tenancy.md`）。スキーマ定義が source of truth。**イミュータブルデータモデリング**を採用する。
 
 ## イミュータブルデータモデリング（最重要）
 
@@ -24,7 +24,7 @@ DB は **MySQL + Drizzle**。スキーマ定義が source of truth。**イミュ
 ### リソーステーブル（`r_`）
 
 - マスタ的な実体。**`updated_at` は使わない**（変化はできるだけイベントで表現。本当に必要な属性更新のみ直接変更）。
-- 「現在の状態」は関連イベントから導出するのを基本とする。
+- 「現在の状態」はイベントから導出が基本。ただし**読み取り性能のため `current_status` 列（イベントの射影）を持つことを許容**する（関連イベント追記と**同一トランザクションで更新**・イベントから再構築可能。ADR-009）。
 
 ### 中間テーブル（関連）
 
@@ -36,7 +36,7 @@ DB は **MySQL + Drizzle**。スキーマ定義が source of truth。**イミュ
 
 ## テーブル共通
 
-- **YOU MUST**: 全テーブルに **`tenant_id`**（複合インデックスの先頭。`multi-tenancy.md` / `performance.md`）。
+- **YOU MUST**: 全テーブルに **`tenant_id`**（複合インデックスの先頭）。**PostgreSQL の RLS でテナント分離を DB 強制**（`FORCE ROW LEVEL SECURITY`・非 owner ロール接続・`SET LOCAL app.current_tenant`。`multi-tenancy.md` / `performance.md`）。
 - **命名**: テーブル名は **`r_` / `e_` ＋ snake_case ＋ 複数形**（例 `r_books`, `e_loans`）。カラムは snake_case、TS 側は camelCase（Drizzle のマッピング）。
 - **主キー**: 文字列ID（cuid / ULID 等）で統一。業務上の一意キー（学籍番号 / 図書カード番号 / ISBN 等）はユニーク制約。
 - 区分値は enum で表現する。
@@ -48,7 +48,7 @@ DB は **MySQL + Drizzle**。スキーマ定義が source of truth。**イミュ
 
 ## インデックス・制約
 
-- `tenant_id` 先頭の複合インデックス、キャンパス・絞り込みキー、蔵書検索は FULLTEXT（`performance.md`）。外部キー・制約はスキーマで表現。
+- `tenant_id` 先頭の複合インデックス、キャンパス・絞り込みキー、蔵書検索は **PostgreSQL 全文検索（GIN）**（`performance.md`）。外部キー・制約はスキーマで表現。
 
 ## 削除
 

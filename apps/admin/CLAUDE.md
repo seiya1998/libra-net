@@ -1,6 +1,6 @@
 # CLAUDE.md - Admin Dashboard
 
-大学図書館SaaS 管理画面 (@libra-net/admin)
+大学図書館SaaS 管理画面 (@libriori/admin)
 
 ## 技術スタック
 

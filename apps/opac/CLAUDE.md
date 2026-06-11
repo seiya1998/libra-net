@@ -1,6 +1,6 @@
 # CLAUDE.md - OPAC（利用者向け検索）
 
-大学図書館SaaS 利用者向け蔵書検索 (@libra-net/opac)
+大学図書館SaaS 利用者向け蔵書検索 (@libriori/opac)
 
 > 未着手（ディレクトリ新規）。本書と `.claude/rules/opac/` は「これから建てる実装を導く規約」。
 
@@ -16,10 +16,10 @@
 ## コマンド（想定。opac の package.json に定義する）
 
 ```bash
-pnpm --filter @libra-net/opac dev          # 開発サーバー
-pnpm --filter @libra-net/opac build        # 本番ビルド
-pnpm --filter @libra-net/opac lint         # ESLint
-pnpm --filter @libra-net/opac tsc --noEmit # 型チェック
+pnpm --filter @libriori/opac dev          # 開発サーバー
+pnpm --filter @libriori/opac build        # 本番ビルド
+pnpm --filter @libriori/opac lint         # ESLint
+pnpm --filter @libriori/opac tsc --noEmit # 型チェック
 ```
 
 ## 開発ルール

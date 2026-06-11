@@ -52,4 +52,4 @@ export default async function (fastify: FastifyInstance) {
 - [ ] `bypass` は ctx 束縛済みユースケース（`useCase(ctx)`）
 - [ ] エラー本文は `{ error: { code, message } }`
 - [ ] handler から Drizzle・リポジトリを直接呼んでいない
-- [ ] `pnpm --filter @libra-net/server tsc --noEmit` / `test:e2e` / `lint` が通る
+- [ ] `pnpm --filter @libriori/server tsc --noEmit` / `test:e2e` / `lint` が通る

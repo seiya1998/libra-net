@@ -1,4 +1,4 @@
-# LibraNet ドキュメント
+# Libriori ドキュメント
 
 仕様駆動ワークフローの土台。`inputs/` の生情報を消化して docs を更新し、docs から GitHub Issue を起票して実装につなげる。
 

@@ -10,11 +10,11 @@ paths:
 
 ## 環境・コマンド
 
-- **YOU MUST**: コマンドは filter 指定で実行（例: `pnpm --filter @libra-net/admin <command>`）。`package.json` の `scripts` を確認してから実行。
+- **YOU MUST**: コマンドは filter 指定で実行（例: `pnpm --filter @libriori/admin <command>`）。`package.json` の `scripts` を確認してから実行。
 
 ```bash
-pnpm --filter @libra-net/admin lint
-pnpm --filter @libra-net/admin test
+pnpm --filter @libriori/admin lint
+pnpm --filter @libriori/admin test
 ```
 
 ## 状態管理（admin 固有）

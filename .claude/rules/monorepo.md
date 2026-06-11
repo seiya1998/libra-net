@@ -30,4 +30,4 @@ pnpm workspace。**`apps/*`**（アプリ: admin / server / opac）＋ **`packag
 
 ## コマンド
 
-- ワークスペース指定で実行: `pnpm --filter @libra-net/<workspace> <command>`
+- ワークスペース指定で実行: `pnpm --filter @libriori/<workspace> <command>`
