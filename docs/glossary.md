@@ -34,7 +34,7 @@
 | OPAC | OPAC | Online Public Access Catalog。利用者向け蔵書検索 |
 | ISBN | ISBN | 書籍の国際標準番号。書誌自動取得のキー |
 | 国立国会図書館API | NDL API | ISBN から書誌を取得する外部 API |
-| 図書カード | Library Card | 一般利用者に配布するバーコード付きカード（一意番号で管理） |
+| 図書カード | Library Card | 一般利用者の**電子図書カード**（OPAC ログイン後にバーコード表示・印刷/物理カードなし）。一意番号で管理 |
 | 全文検索 | Full-text Search | PostgreSQL の全文検索（tsvector / pg_trgm）。蔵書検索に使用。SearchPort で抽象化 |
 | 行レベルセキュリティ | RLS | PostgreSQL の機能。テナントごとに行を自動フィルタし、DB レベルでテナント分離を強制（ADR-002） |
 | テナント分離方式 | Pool / Silo / Hybrid | Pool=共有スキーマ＋tenant_id（既定）/ Silo=テナント別DB / Hybrid=混在（ADR-002） |
